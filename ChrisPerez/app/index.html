@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Text Adventure</title>
+    <link type="text/css" rel="stylesheet" href="style.css">
+  </head>
+
+  <body ng-app="textAdventure">
+
+    <main ng-controller="GameController as ctrllr" ng-cloak ng-init="ctrllr.startGame()">
+        <h1>Adventure App:</h1>
+
+
+
+        <form name="userInputForm" ng-submit="ctrllr.processInput()">
+            <label for="command">Command:
+                <input type="text" required ng-model="ctrllr.command">
+            </label>
+            <button type="submit">Go</button>
+        </form>
+
+        <ul id="inputlog" >
+            <li ng-repeat="item in ctrllr.gamelog">
+                <span class="{{item.src}}-input">{{item.msg}}
+                </span>
+            </li>
+        </ul>
+
+    </main>
+    <!-- build:js scripts/main.js -->
+    <script src="bundle.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>
