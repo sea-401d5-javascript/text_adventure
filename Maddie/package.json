@@ -1,0 +1,27 @@
+{
+  "name": "text_adventure",
+  "version": "1.0.0",
+  "description": "Create a text based adventure game! For this assignment you'll be creating  a text based adventure game ala Zork. This game should have at least two rooms that the player can move between. One item that the player can interact with and  one monster for the player to defeat. Your webpage should have a command input and a button or a form submission to do something based on the command. No need to try and persist the data. Make sure to create each of your different commands  or actions as functions on your controller.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdar22169/text_adventure.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jdar22169/text_adventure/issues"
+  },
+  "homepage": "https://github.com/jdar22169/text_adventure#readme",
+  "dependencies": {
+    "angular": "^1.5.6",
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "webpack-stream": "^3.2.0"
+  }
+}
