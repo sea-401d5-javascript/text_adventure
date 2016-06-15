@@ -7,7 +7,16 @@ and a button or a form submission to do something based on the command. No need
 to try and persist the data. Make sure to create each of your different commands 
 or actions as functions on your controller.
 
+
 # Rubric
-Command Processing: 3pts
-Game Construction: 4pts
-Build Process: 3pts
+  * Command Processing: 3pts
+  * Game Construction: 4pts
+  * Build Process: 3pts
+ 
+
+# To Submit this Assignment
+  * fork this repository
+  * write all of your code in a folder containing your name
+  * push to your repository
+  * submit a pull request to this repository
+  * submit a link to your PR in canvas
