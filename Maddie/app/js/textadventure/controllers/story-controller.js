@@ -35,6 +35,8 @@ function StoryController() {
 }
 StoryController.prototype.startGame = function() {
   this.commands = '';
+  this.commandlog = [];
+  this.promptlog = [];
   this.promptlog.push({
     msg: this.location.start.prompt
   });
@@ -66,17 +68,7 @@ StoryController.prototype.processInput = function() {
     });
     break;
   case 'Start over':
-    this.commands = '';
-    this.commandlog = [];
-    this.promptlog = [];
-    this.promptlog.push({
-      msg: this.location.start.prompt
-    });
-    this.location.start.commands.forEach((item) => {
-      this.commandlog.push({
-        msg: item
-      });
-    });
+    this.startGame();
     break;
   case 'Try and steal the sword':
     this.commands = '';
@@ -102,6 +94,4 @@ StoryController.prototype.processInput = function() {
   default:
     this.promptlog.push({msg:'INVAILD CHOICE. PLEASE CHOOSE ONE OF THE CHOICES BELOW.'});
   }
-
-
 };
