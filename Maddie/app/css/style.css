@@ -1,5 +1,6 @@
 div ul {
   display: block;
+  margin-top: .5%;
   height: 60%;
   width: 60%;
   background-color: black;
@@ -8,10 +9,10 @@ div ul {
 }
 
 label {
-  font-size: 1em;
+  size: 1em;
 }
 
 input {
-  font-size: .5em;
+  font-size: 1em;
   width: 30%;
 }
