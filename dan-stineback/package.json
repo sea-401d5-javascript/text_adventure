@@ -11,7 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.13.4"
+    "angular-mocks": "^1.5.7",
+    "express": "^4.13.4",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1"
   },
   "devDependencies": {
     "angular": "^1.5.6",
