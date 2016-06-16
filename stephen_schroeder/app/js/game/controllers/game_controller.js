@@ -29,7 +29,7 @@ function GameController() {
   };
 }
 
-GameController.prototype.startGame = () => {
+GameController.prototype.startGame = function() {
   this.gamelog = []; //clear
   this.userLocation = 'start';
   this.userHasWeapon = false;
@@ -70,7 +70,8 @@ GameController.prototype.processInput = function() {
         msg: this.location[currentLocation].prompt
       });
     } else {
-      this.userLocation = 'weaponroom';            this.gamelog.push({
+      this.userLocation = 'weaponroom';
+      this.gamelog.push({
         src: 'game',
         msg: this.location.weaponroom.prompt
       });
@@ -84,6 +85,23 @@ GameController.prototype.processInput = function() {
 
   case 'take hammer':
     this.userHasWeapon = true;
+    currentLocation = this.userLocation;
+    if(currentLocation === 'weaponroom') {
+      currentLocation = this.userLocation = 'weaponroomwithweapon';
+      this.gamelog.push({
+        src: 'game',
+        msg: this.location[currentLocation].prompt
+      });
+      this.gamelog.push({
+        src: 'game',
+        msg: this.currentHelpMsg()
+      });
+    } else {
+      this.gamelog.push({
+        src: 'game',
+        msg: 'Invalid selection. Please choose from ' + this.currentHelpMsg()
+      });
+    }
     break;
 
   default:
@@ -122,6 +140,14 @@ GameController.prototype.currentHelpMsg = () => {
       str += item;
     });
     break;
+
+  case 'monsterroomwithweapon':
+    this.location.monsterroomwithoutweapon.commands.forEach(function(item, index) {
+      str += index > 0 ? ' | ' : '';
+      str += item;
+    });
+    break;
+
   }
   return str;
 };
