@@ -80,14 +80,28 @@ GameController.prototype.processInput = function(){
     break;
 
   case 'grab':
-    this.userArmed = true;
+    if (this.userLocation === 'armory') {
+      this.userArmed = true;
+    } else {
+      this.gamelog.push({
+        src: 'game',
+        msg: 'BAD COMMAND. Enter ? to see available commands'
+      });
+    }
     break;
 
   case 'challenge':
-    this.gamelog.push({
-      src: 'game',
-      msg: this.location.monsterroomarmed.final
-    });
+    if (this.userLocation === 'monsterroomarmed') {
+      this.gamelog.push({
+        src: 'game',
+        msg: this.location.monsterroomarmed.final
+      });
+    } else {
+      this.gamelog.push({
+        src: 'game',
+        msg: 'BAD COMMAND. Enter ? to see available commands'
+      });
+    }
     break;
 
   default:
