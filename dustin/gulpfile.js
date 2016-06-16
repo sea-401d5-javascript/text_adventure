@@ -8,12 +8,14 @@ var paths = {
   dev: {
     css: 'app/css/**/*.css',
     html: 'app/**/*.html',
-    js: 'app/js/**/*.js'
+    js: 'app/js/**/*.js',
+    test: 'test/*_test.js'
   },
   build: {
     main: 'build/',
     css: 'build/css',
-    js: 'build/js'
+    js: 'build/js',
+    test: 'test/'
   }
 };
 
@@ -21,6 +23,10 @@ gulp.task('watch', function () {
   gulp.watch(paths.dev.html, ['staticfiles:dev']);
   gulp.watch(paths.dev.js, ['webpack:dev']);
   gulp.watch(paths.dev.css, ['staticcssfiles:dev']);
+});
+
+gulp.task('test:watch', function () {
+  gulp.watch(paths.dev.test, ['bundle:test']);
 });
 
 gulp.task('webpack:dev', function () {
@@ -31,6 +37,16 @@ gulp.task('webpack:dev', function () {
       }
     }))
     .pipe(gulp.dest(paths.build.main));
+});
+
+gulp.task('bundle:test', () => {
+  return gulp.src(__dirname + '/test/*_test.js')
+  .pipe(webpack({
+    output: {
+      filename: 'test_bundle.js'
+    }
+  }))
+  .pipe(gulp.dest(__dirname + '/test'));
 });
 
 gulp.task('staticfiles:dev', function () {

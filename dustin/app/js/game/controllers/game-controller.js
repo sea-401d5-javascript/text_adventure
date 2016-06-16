@@ -158,6 +158,7 @@ function GameController() {
           msg: 'After a firece battle you have defeated Khan but lost all your men'
         });
         this.model.userLocation = 'crashsitekhandead';
+        this.model.khanAlive = false;
         break;
 
       default:
