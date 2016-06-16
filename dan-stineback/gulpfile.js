@@ -1,27 +1,52 @@
 'use strict';
+const gulp = require('gulp');
+const webpack = require('webpack-stream');
+const clean = require('gulp-clean');
 
-var gulp = require('gulp');
-var webpack = require('webpack-stream');
+const paths = {
+  js:__dirname + '/app/js/*.js',
+  html: __dirname + '/app/*.html',
+  css: __dirname + '/app/css/*.css'
+};
 
-gulp.task('webpack:dev', function() {
-  return gulp.src('./app/js/client.js')
+gulp.task('clean', () => {
+  return gulp.src('build/*', {read:false})
+    .pipe(clean());
+});
+
+gulp.task('copy', ['clean'], () => {
+  return gulp.src(paths.html)
+    .pipe(gulp.dest('./build'));
+});
+
+gulp.task('copyTwo', ['clean'], () => {
+  return gulp.src(paths.css)
+    .pipe(gulp.dest('./build'));
+});
+
+gulp.task('bundle', ['clean'], () => {
+  return gulp.src(paths.js)
     .pipe(webpack({
       output: {
         filename: 'bundle.js'
       }
     }))
-    .pipe(gulp.dest('build/'));
+    .pipe(gulp.dest('./build'));
 });
 
-gulp.task('staticfiles:dev', function() {
-  return gulp.src('./app/**/*.html')
-  .pipe(gulp.dest('build/'));
+gulp.task('bundle:test', () => {
+  return gulp.src(__dirname + '/test/*_test.js')
+    .pipe(webpack({
+      output: {
+        filename: 'test_bundle.js'
+      }
+    }))
+    .pipe(gulp.dest(__dirname + '/test'));
 });
 
-gulp.task('staticcssfiles:dev', function() {
-  return gulp.src('./app/css/*.css')
-  .pipe(gulp.dest('build/'));
+gulp.task('watch', () => {
+  gulp.watch('./app/*', ['build']);
 });
 
-gulp.task('build:dev', ['staticfiles:dev','staticcssfiles:dev', 'webpack:dev']);
-gulp.task('default', ['build:dev']);
+gulp.task('build', ['clean','copy','copyTwo','bundle' ]);
+gulp.task('defualt', ['build']);
