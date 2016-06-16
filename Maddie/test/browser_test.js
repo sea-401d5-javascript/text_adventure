@@ -2,7 +2,6 @@
 const angular = require('angular');
 require('angular-mocks');
 require('../app/js/client.js');
-require('eslint-plugin-jasmine');
 
 describe('Controller Tests', () => {
   let storyCtrl;
