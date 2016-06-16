@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Text-Adventure</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body ng-app="TextAdventure">
+    <div ng-controller="StoryController as story" ng-cloak data-ng-init="story.startGame()">
+      <form name="userInput" data-ng-submit="story.processInput()">
+        <label for="commands">What Will You Do?:
+          <input type="text" required data-ng-model="story.commands">
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+      <ul>
+        <li data-ng-repeat="item in story.promptlog">
+          <h3>{{item.msg}}</h3>
+        </li>
+        <li data-ng-repeat="item in story.commandlog">
+          <span>{{item.msg}}</span>
+        </li>
+      </ul>
+    </div>
+
+
+  <script src= "bundle.js"></script>
+  </body>
+</html>

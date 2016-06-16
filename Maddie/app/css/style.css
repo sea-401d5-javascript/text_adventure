@@ -1,0 +1,18 @@
+div ul {
+  display: block;
+  margin-top: .5%;
+  height: 60%;
+  width: 60%;
+  background-color: black;
+  color: white;
+  list-style: none;
+}
+
+label {
+  size: 1em;
+}
+
+input {
+  font-size: 1em;
+  width: 30%;
+}
