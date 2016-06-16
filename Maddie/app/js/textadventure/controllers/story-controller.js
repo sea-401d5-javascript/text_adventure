@@ -51,47 +51,47 @@ StoryController.prototype.startGame = function() {
 StoryController.prototype.processInput = function() {
 
   switch(this.commands) {
-  case 'Leave the room':
-    this.commands = '';
-    this.commandlog = [];
-    this.promptlog.push({msg:this.location.otherRoom.prompt});
-    this.location.otherRoom.commands.forEach((item) => {
-      this.commandlog.push({msg: item});
-    });
-    break;
-  case 'Fight the monster bare-handed':
-    this.commands = '';
-    this.commandlog = [];
-    this.promptlog.push({msg:this.location.dungeonWithFists.prompt});
-    this.location.dungeonWithFists.commands.forEach((item) => {
-      this.commandlog.push({msg:item});
-    });
-    break;
-  case 'Start over':
-    this.startGame();
-    break;
-  case 'Try and steal the sword':
-    this.commands = '';
-    this.commandlog = [];
-    this.promptlog.push({msg:this.location.otherRoomAndTryingToSteal.prompt});
-    this.location.otherRoomAndTryingToSteal.commands.forEach((item) => {
-      this.commandlog.push({msg:item});
-    });
-    break;
-  case 'Wake her up':
-    this.commands = '';
-    this.commandlog = [];
-    this.promptlog.push({msg:this.location.otherRoomAndConvincing.prompt});
-    this.location.otherRoomAndConvincing.commands.forEach((item) => {
-      this.commandlog.push({msg:item});
-    });
-    break;
-  case 'Go fight the monster':
-    this.commands = '';
-    this.commandlog = [];
-    this.promptlog.push({msg:this.location.dungeonWithAlly.prompt});
-    break;
-  default:
-    this.promptlog.push({msg:'INVAILD CHOICE. PLEASE CHOOSE ONE OF THE CHOICES BELOW.'});
+    case 'Leave the room':
+      this.commands = '';
+      this.commandlog = [];
+      this.promptlog.push({msg:this.location.otherRoom.prompt});
+      this.location.otherRoom.commands.forEach((item) => {
+        this.commandlog.push({msg: item});
+      });
+      break;
+    case 'Fight the monster bare-handed':
+      this.commands = '';
+      this.commandlog = [];
+      this.promptlog.push({msg:this.location.dungeonWithFists.prompt});
+      this.location.dungeonWithFists.commands.forEach((item) => {
+        this.commandlog.push({msg:item});
+      });
+      break;
+    case 'Start over':
+      this.startGame();
+      break;
+    case 'Try and steal the sword':
+      this.commands = '';
+      this.commandlog = [];
+      this.promptlog.push({msg:this.location.otherRoomAndTryingToSteal.prompt});
+      this.location.otherRoomAndTryingToSteal.commands.forEach((item) => {
+        this.commandlog.push({msg:item});
+      });
+      break;
+    case 'Wake her up':
+      this.commands = '';
+      this.commandlog = [];
+      this.promptlog.push({msg:this.location.otherRoomAndConvincing.prompt});
+      this.location.otherRoomAndConvincing.commands.forEach((item) => {
+        this.commandlog.push({msg:item});
+      });
+      break;
+    case 'Go fight the monster':
+      this.commands = '';
+      this.commandlog = [];
+      this.promptlog.push({msg:this.location.dungeonWithAlly.prompt});
+      break;
+    default:
+      this.promptlog.push({msg:'INVAILD CHOICE. PLEASE CHOOSE ONE OF THE CHOICES BELOW.'});
   }
 };
