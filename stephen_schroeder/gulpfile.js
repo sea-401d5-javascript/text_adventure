@@ -1,27 +1,47 @@
 'use strict';
 
+const clean = require('gulp-clean');
 var gulp = require('gulp');
 var webpack = require('webpack-stream');
 
-gulp.task('webpack:dev', function() {
-  return gulp.src('./app/js/client.js')
+const paths = {
+  js: __dirname + '/app/**/*.js',
+  html: __dirname + '/app/index.html',
+  css: __dirname + '/app/style.css'
+};
+
+gulp.task('clean', ()=>{
+  return gulp.src('./build/*')
+    .pipe(clean());
+});
+
+gulp.task('copy', ()=>{
+  gulp.src(paths.html)
+    .pipe(gulp.dest('./build'));
+  gulp.src(paths.css)
+    .pipe(gulp.dest('./build'));
+});
+
+gulp.task('bundle', ()=>{
+  gulp.src(paths.js)
     .pipe(webpack({
       output: {
         filename: 'bundle.js'
       }
     }))
-    .pipe(gulp.dest('build/'));
+    .pipe(gulp.dest('./build'));
 });
 
-gulp.task('staticfiles:dev', function() {
-  return gulp.src('./app/**/*.html')
-  .pipe(gulp.dest('build/'));
+gulp.task('bundle:test', () => {
+  return gulp.src(__dirname + '/test/*_test.js')
+    .pipe(webpack({
+      output: {
+        filename: 'test_bundle.js'
+      }
+    }))
+    .pipe(gulp.dest(__dirname + '/test'));
 });
 
-gulp.task('staticcssfiles:dev', function() {
-  return gulp.src('./app/css/*.css')
-  .pipe(gulp.dest('build/'));
-});
+gulp.task('build', ['clean', 'copy', 'bundle']);
 
-gulp.task('build:dev', ['staticfiles:dev','staticcssfiles:dev', 'webpack:dev']);
-gulp.task('default', ['build:dev']);
+gulp.task('default', ['build']);
