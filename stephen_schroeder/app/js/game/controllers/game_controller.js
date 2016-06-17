@@ -82,27 +82,25 @@ GameController.prototype.processInput = function(){
     break;
 
   case 'take hammer':
-    currentLocation = this.userLocation;
-    if (this.userLocation === 'weaponroom') {
-      this.userArmed = true;
-    } else {
-      this.gamelog.push({
-        src: 'game',
-        msg: 'BAD COMMAND. Enter ? to see available commands'
-      });
-    }
-    break;
 
-  case 'throw hammer':
-    if (this.userLocation === 'monsterroomwithweapon') {
+    this.userHasWeapon = true;
+    currentLocation = this.userLocation;
+    if(currentLocation === 'weaponroom') {
+      currentLocation = this.userLocation = 'weaponroomwithweapon';
       this.gamelog.push({
         src: 'game',
-        msg: this.location.monsterroomwithweapon.taps
+        msg: this.location[currentLocation].prompt
+      });
+      this.gamelog.push({
+        src: 'game',
+        msg: this.currentHelpMsg()
+
       });
     } else {
       this.gamelog.push({
         src: 'game',
-        msg: 'BAD COMMAND. Enter ? to see available commands'
+        msg: 'Invalid selection. Please choose from ' + this.currentHelpMsg()
+
       });
     }
     break;
