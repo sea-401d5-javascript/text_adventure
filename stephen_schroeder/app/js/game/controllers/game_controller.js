@@ -11,8 +11,8 @@ function GameController() {
   this.gamelog = [];
   this.location = {
     'start': {
-      commands: ['Enter ? for available commands at any time.'],
-      prompt: 'Welcome to the Adventure. You are in a room with a monster.'
+      commands: ['Enter ? for available commands at any time.', 'walk through door'],
+      prompt: 'Welcome to the Adventure. You are in a room with a monster, UNARMED.'
     },
     'weaponroom': {
       commands: ['take hammer', 'look for treasure', 'say <message>', 'walk through door'],
@@ -24,21 +24,18 @@ function GameController() {
     },
     'monsterroomwithweapon': {
       commands: ['throw hammer'],
-      prompt: 'You are in a room with a monster and you have a weapon.'
+      prompt: 'You are in a room with a monster and you have a weapon.',
+      taps: 'YOU DID IT! YOU SLAYED THE WILY BEAST'
     }
   };
 }
 
-GameController.prototype.startGame = () => {
-  this.gamelog = []; //clear
-  this.userLocation = 'start';
-  this.userHasWeapon = false;
-  this.command = '';
+GameController.prototype.startGame = function () {
   this.gamelog.push({
     src: 'game',
     msg: this.location.start.prompt
   });
-  this.location.start.commands.forEach((item) => {
+  this.location.start.commands.forEach((item)=>{
     this.gamelog.push({
       src: 'command',
       msg: item
@@ -47,35 +44,37 @@ GameController.prototype.startGame = () => {
   this.userLocation = 'monsterroomwithoutweapon';
 };
 
-GameController.prototype.processInput = function() {
+GameController.prototype.processInput = function(){
+
   this.gamelog.push({
     src: 'user',
     msg: this.command
   });
 
   switch (this.command) {
+
   case '?':
     this.gamelog.push({
       src: 'game',
       msg: this.currentHelpMsg()
     });
     break;
+
   case 'walk through door':
-      //set location
     var currentLocation = this.userLocation;
     if (currentLocation === 'weaponroom') {
-      currentLocation = this.userLocation = this.userHasWeapon ? 'monsterroomwithweapon' : 'monsterroomwithoutweapon';
+      currentLocation = this.userLocation = this.userArmed ? 'monsterroomwithweapon' : 'monsterroomwithoutweapon';
       this.gamelog.push({
         src: 'game',
         msg: this.location[currentLocation].prompt
       });
     } else {
-      this.userLocation = 'weaponroom';            this.gamelog.push({
+      this.userLocation = 'weaponroom';
+      this.gamelog.push({
         src: 'game',
         msg: this.location.weaponroom.prompt
       });
     }
-
     this.gamelog.push({
       src: 'game',
       msg: this.currentHelpMsg()
@@ -83,41 +82,67 @@ GameController.prototype.processInput = function() {
     break;
 
   case 'take hammer':
-    this.userHasWeapon = true;
-    break;
-
-  default:
-      //test for say <message>
-    var sayArr = this.command.split(' ');
-    if (sayArr[0] === 'say') {
+    currentLocation = this.userLocation;
+    if (this.userLocation === 'weaponroom') {
+      this.userArmed = true;
+    } else {
       this.gamelog.push({
         src: 'game',
-        msg: sayArr[1] || 'SAY SOMETHING!'
+        msg: 'BAD COMMAND. Enter ? to see available commands'
+      });
+    }
+    break;
+
+  case 'throw hammer':
+    if (this.userLocation === 'monsterroomwithweapon') {
+      this.gamelog.push({
+        src: 'game',
+        msg: this.location.monsterroomwithweapon.taps
       });
     } else {
       this.gamelog.push({
         src: 'game',
-        msg: 'BAD COMMAND: Enter ? to see commands'
+        msg: 'BAD COMMAND. Enter ? to see available commands'
+      });
+    }
+    break;
+
+  default:
+    var sayArr = this.command.split(' ');
+    if (sayArr[0] === 'say'){
+      this.gamelog.push({
+        src: 'game',
+        msg: sayArr[1] || 'Well... speak up.'
+      });
+    } else {
+      this.gamelog.push({
+        src: 'game',
+        msg: 'BAD COMMAND. Enter ? to see available commands'
       });
     }
   }
-  this.command = ''; //clear command after processing
-
+  this.command = '';
 };
 
-GameController.prototype.currentHelpMsg = () => {
+GameController.prototype.currentHelpMsg = function(){
   var str = '';
-  switch (this.userLocation) {
-
+  switch (this.userLocation){
   case 'weaponroom':
-    this.location.weaponroom.commands.forEach(function(item, index) {
+    this.location.weaponroom.commands.forEach((item, index)=>{
       str += index > 0 ? ' | ' : '';
       str += item;
     });
     break;
 
   case 'monsterroomwithoutweapon':
-    this.location.monsterroomwithoutweapon.commands.forEach(function(item, index) {
+    this.location.monsterroomwithoutweapon.commands.forEach((item, index)=>{
+      str += index > 0 ? ' | ' : '';
+      str += item;
+    });
+    break;
+
+  case 'monsterroomwithweapon':
+    this.location.monsterroomwithweapon.commands.forEach((item, index)=>{
       str += index > 0 ? ' | ' : '';
       str += item;
     });
