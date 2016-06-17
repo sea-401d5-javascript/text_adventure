@@ -23,7 +23,7 @@ function GameController() {
       prompt: 'You are in a room with a monster.'
     },
     'monsterroomwithweapon': {
-      commands: ['throw hammer'],
+      commands: ['fight'],
       prompt: 'You are in a room with a monster and you have a weapon.',
       taps: 'YOU DID IT! YOU SLAYED THE WILY BEAST'
     }
@@ -35,7 +35,7 @@ GameController.prototype.startGame = function () {
     src: 'game',
     msg: this.location.start.prompt
   });
-  this.location.start.commands.forEach((item)=>{
+  this.location.start.commands.forEach((item) => {
     this.gamelog.push({
       src: 'command',
       msg: item
@@ -63,7 +63,7 @@ GameController.prototype.processInput = function(){
   case 'walk through door':
     var currentLocation = this.userLocation;
     if (currentLocation === 'weaponroom') {
-      currentLocation = this.userLocation = this.userArmed ? 'monsterroomwithweapon' : 'monsterroomwithoutweapon';
+      currentLocation = this.userLocation = this.userHasWeapon ? 'monsterroomwithweapon' : 'monsterroomwithoutweapon';
       this.gamelog.push({
         src: 'game',
         msg: this.location[currentLocation].prompt
@@ -82,25 +82,30 @@ GameController.prototype.processInput = function(){
     break;
 
   case 'take hammer':
-
-    this.userHasWeapon = true;
-    currentLocation = this.userLocation;
-    if(currentLocation === 'weaponroom') {
-      currentLocation = this.userLocation = 'weaponroomwithweapon';
+    if(this.userLocation === 'weaponroom') {
+      this.userHasWeapon = true;
       this.gamelog.push({
         src: 'game',
-        msg: this.location[currentLocation].prompt
-      });
-      this.gamelog.push({
-        src: 'game',
-        msg: this.currentHelpMsg()
-
+        msg: 'walk through the door and fight'
       });
     } else {
       this.gamelog.push({
         src: 'game',
-        msg: 'Invalid selection. Please choose from ' + this.currentHelpMsg()
+        msg: 'BAD COMMAND. Enter ? to see available commands' + this.currentHelpMsg()
+      });
+    }
+    break;
 
+  case 'fight':
+    if(this.userLocation === 'monsterroomwithweapon') {
+      this.gamelog.push({
+        src: 'game',
+        msg: this.location.monsterroomwithweapon.taps
+      });
+    } else {
+      this.gamelog.push({
+        src: 'game',
+        msg: 'BAD COMMAND. Enter ? to see available commands'
       });
     }
     break;
@@ -110,7 +115,7 @@ GameController.prototype.processInput = function(){
     if (sayArr[0] === 'say'){
       this.gamelog.push({
         src: 'game',
-        msg: sayArr[1] || 'Well... speak up.'
+        msg: sayArr[1] || 'Huh, can\'t hear you.'
       });
     } else {
       this.gamelog.push({
