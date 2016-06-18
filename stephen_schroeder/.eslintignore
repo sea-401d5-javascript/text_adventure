@@ -1,6 +1,7 @@
 **/node_modules/*
 **/vendor/*
 **/*.min.js
-/*.md
-/package.json
 **/build/*
+**/test/*_bundle*
+*.md
+package.json
