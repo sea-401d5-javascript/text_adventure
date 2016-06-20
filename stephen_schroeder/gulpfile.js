@@ -11,7 +11,7 @@ const paths = {
 };
 
 gulp.task('clean', ()=>{
-  return gulp.src('./build/*')
+  gulp.src('./build/*')
     .pipe(clean());
 });
 

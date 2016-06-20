@@ -10,6 +10,7 @@
   "author": "Stephen Schroeder | schrode50@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.7.1",
     "express": "^4.13.4"
   },
   "devDependencies": {
