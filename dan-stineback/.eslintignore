@@ -6,3 +6,5 @@
 /npm-debug.log
 /procfile
 */build**
+**/build/*
+**/test/*_bundle*
