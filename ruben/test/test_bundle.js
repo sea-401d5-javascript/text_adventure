@@ -65,6 +65,34 @@
 	  it('should have a property notes', ()=>{
 	      expect(Array.isArray(firstctrl.gamelog)).toBe(true);
 	    });
+
+	  it('should have a command property with type of String', () => {
+	    expect(typeof firstctrl.command).toBe('string');
+	  });
+
+	  it('should have an empty array on property gamelog', () => {
+	    expect(firstctrl.gamelog.length).toBe(0);
+	  });
+
+	  it('should have a ball on property location', () => {
+	    expect(typeof firstctrl.location).toBe('object');
+	  });
+
+	  it('should have one command on start', () => {
+	    expect(firstctrl.location.start.commands.length).toBe(1);
+	  });
+
+	  it('should have three commands in the stadium', () =>  {
+	    expect(firstctrl.location.stadium.commands.length).toBe(3);
+	  });
+
+	  it('should have two commands on the courtwithoutball location', () => {
+	    expect(firstctrl.location.courtwithoutball.commands.length).toBe(2);
+	  });
+
+	  it('should have one command on the courtwithball location', () => {
+	    expect(firstctrl.location.courtwithball.commands.length).toBe(1);
+	  });
 	});
 
 
@@ -34261,12 +34289,11 @@
 	};
 
 	function GameController() {
-	    this.model = {
-	      userLocation: 'start',
-	      userHasBall: false,
-	      command: '',
-	      gamelog: [],
-	      location: {
+	      this.userLocation = 'start';
+	      this.userHasBall = false;
+	      this.command = '';
+	      this.gamelog = [];
+	      this.location = {
 	        'start': {
 	          commands: ['Enter ? for available commands at any time.'],
 	          prompt: 'Welcome to the NBA Finals. You are in a stadium with a Monstar from Space Jam.'
@@ -34285,94 +34312,94 @@
 	        }
 	      }
 	    };
-	    this.startGame = function() {
-	      this.model.gamelog = [];
-	      this.model.userLocation = 'start';
-	      this.model.userHasBall = false;
-	      this.model.command = '';
-	      this.model.gamelog.push({
+	    GameController.prototype.startGame = function() {
+	      this.gamelog = [];
+	      this.userLocation = 'start';
+	      this.userHasBall = false;
+	      this.command = '';
+	      this.gamelog.push({
 	        src: 'game',
-	        msg: this.model.location.start.prompt
+	        msg: this.location.start.prompt
 	      });
-	      this.model.location.start.commands.forEach(function(item) {
-	        this.model.gamelog.push({
+	      var gamelog = this.gamelog;
+	      this.location.start.commands.forEach(function(item) {
+	        gamelog.push({
 	          src: 'command',
 	          msg: item
 	        });
 	      });
-	      this.model.userLocation = 'courtwithoutball';
+	      this.userLocation = 'courtwithoutball';
 	    };
-	    this.processInput = function() {
-
-
-	      this.model.gamelog.push({
+	    GameController.prototype.processInput = function() {
+	      this.gamelog.push({
 	        src: 'user',
-	        msg: this.model.command
+	        msg: this.command
 	      });
 
-	      switch (this.model.command) {
+	      switch (this.command) {
 	      case '?':
-	        this.model.gamelog.push({
+	        this.gamelog.push({
 	          src: 'game',
 	          msg: this.currentHelpMsg()
 	        });
 	        break;
 	      case 'walk onto court':
-	        var currentLocation = this.model.userLocation;
+	        var currentLocation = this.userLocation;
 	        if (currentLocation === 'stadium') {
-	          currentLocation = this.model.userLocation = this.model.userHasWeapon ? 'courtwithball' : 'courtwithoutball';
-	          this.model.gamelog.push({
+	          currentLocation = this.userLocation = this.userHasWeapon ? 'courtwithball' : 'courtwithoutball';
+	          this.gamelog.push({
 	            src: 'game',
-	            msg: this.model.location[currentLocation].prompt
+	            msg: this.location[currentLocation].prompt
 	          });
 	        } else {
-	          this.model.userLocation = 'stadium';            this.model.gamelog.push({
+	          this.userLocation = 'stadium';
+	          this.gamelog.push({
 	            src: 'game',
-	            msg: this.model.location.weaponroom.prompt
+	            msg: this.location.weaponroom.prompt
 	          });
 	        }
 
 
-	        this.model.gamelog.push({
+	        this.gamelog.push({
 	          src: 'game',
 	          msg: this.currentHelpMsg()
 	        });
 	        break;
 
 	      case 'take ball':
-	        this.model.userHasWeapon = true;
+	        this.userHasWeapon = true;
 	        break;
 
 	      default:
-	        var sayArr = this.model.command.split(' ');
+	        var sayArr = this.command.split(' ');
 	        if (sayArr[0] === 'say') {
-	          this.model.gamelog.push({
+	          this.gamelog.push({
 	            src: 'game',
 	            msg: sayArr[1] || 'SAY SOMETHING!'
 	          });
 	        } else {
-	          this.model.gamelog.push({
+	          this.gamelog.push({
 	            src: 'game',
 	            msg: 'BAD COMMAND: Enter ? to see commands'
 	          });
 	        }
 	      }
-	      this.model.command = ''; //clear command after processing
+	      this.command = ''; //clear command after processing
 
 	    };
-	    this.currentHelpMsg = function() {
+	    GameController.prototype.currentHelpMsg = function() {
 	      var str = '';
-	      switch (this.model.userLocation) {
+	      switch (this.userLocation) {
 
 	      case 'stadium':
-	        this.model.location.weaponroom.commands.forEach(function(item, index) {
+	        this.location.weaponroom.commands.forEach(function(item, index) {
 	          str += index > 0 ? ' | ' : '';
 	          str += item;
 	        });
 	        break;
 
 	      case 'courtwithoutball':
-	        this.model.location.courtwithoutball.commands.forEach(function(item, index) {
+	        this.location.courtwithoutball.commands.forEach(function(item, index) {
 	          str += index > 0 ? ' | ' : '';
 	          str += item;
 	        });
@@ -34380,7 +34407,6 @@
 	      }
 	      return str;
 	    };
-	};
 
 
 /***/ }
