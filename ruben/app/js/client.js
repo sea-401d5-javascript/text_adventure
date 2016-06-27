@@ -1,6 +1,6 @@
-'use strictc';
+'use strict';
 const angular = require('angular');
 
-const app = angular.module('adventureApp', []);
+const adventureApp = angular.module('adventureApp', []);
 
 require('./game/game')(adventureApp);
